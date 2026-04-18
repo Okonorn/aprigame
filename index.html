@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <button id="themeToggle">🌙</button>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Voidbound — El Cazador de Sombras</title>
@@ -9,44 +8,136 @@
   <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 </head>
 <body>
+
+<!-- Global ambient background -->
 <canvas id="bgCanvas"></canvas>
 
-<!-- ═══════════════ SCREEN 1 · CREATOR ═══════════════ -->
-<div id="screenCreator" class="screen active">
+<!-- ══════════════════════════════════════════
+     SCREEN 0 · LOGIN / REGISTER
+══════════════════════════════════════════ -->
+<div id="screenAuth" class="screen active">
+  <div class="auth-wrap">
+
+    <!-- Left: branding -->
+    <div class="auth-brand">
+      <div class="brand-sigil">⬡</div>
+      <h1 class="brand-title">VOIDBOUND</h1>
+      <p class="brand-tagline">Atrapa las sombras.<br>Conviértete en leyenda.</p>
+      <div class="brand-creatures">👻 💀 🔥 🐺 🟣 🦇 🗿 🧙</div>
+    </div>
+
+    <!-- Right: auth panel -->
+    <div class="auth-panel">
+
+      <!-- Tab switcher -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin"  data-tab="login">Entrar</button>
+        <button class="auth-tab"        id="tabReg"    data-tab="register">Crear cuenta</button>
+      </div>
+
+      <!-- LOGIN form -->
+      <div class="auth-form active" id="formLogin">
+        <div class="auth-field">
+          <label class="auth-label">Correo</label>
+          <input  id="loginEmail" type="email" class="void-input" placeholder="cazador@voidbound.gg" autocomplete="email"/>
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Contraseña</label>
+          <div class="pw-wrap">
+            <input  id="loginPass"  type="password" class="void-input" placeholder="••••••••" autocomplete="current-password"/>
+            <button class="pw-eye" data-target="loginPass" title="Mostrar">👁</button>
+          </div>
+        </div>
+        <div class="auth-error hidden" id="loginError"></div>
+        <button class="auth-submit" id="btnLogin">
+          <span class="btn-hex">⬡</span> Entrar al Vacío
+        </button>
+        <button class="auth-google" id="btnGoogle">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          Entrar con Google
+        </button>
+        <p class="auth-footer-note">¿Sin cuenta? <button class="auth-link" data-switch="register">Regístrate aquí</button></p>
+      </div>
+
+      <!-- REGISTER form -->
+      <div class="auth-form" id="formRegister">
+        <div class="auth-field">
+          <label class="auth-label">Correo</label>
+          <input  id="regEmail" type="email" class="void-input" placeholder="cazador@voidbound.gg" autocomplete="email"/>
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Contraseña</label>
+          <div class="pw-wrap">
+            <input  id="regPass" type="password" class="void-input" placeholder="Mínimo 6 caracteres" autocomplete="new-password"/>
+            <button class="pw-eye" data-target="regPass" title="Mostrar">👁</button>
+          </div>
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Repetir contraseña</label>
+          <div class="pw-wrap">
+            <input  id="regPass2" type="password" class="void-input" placeholder="••••••••" autocomplete="new-password"/>
+            <button class="pw-eye" data-target="regPass2" title="Mostrar">👁</button>
+          </div>
+        </div>
+        <div class="auth-error hidden" id="regError"></div>
+        <button class="auth-submit" id="btnRegister">
+          <span class="btn-hex">⬡</span> Crear cuenta
+        </button>
+        <button class="auth-google" id="btnGoogleReg">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          Registrarse con Google
+        </button>
+        <p class="auth-footer-note">¿Ya tienes cuenta? <button class="auth-link" data-switch="login">Inicia sesión</button></p>
+      </div>
+
+      <!-- Loading state -->
+      <div class="auth-loading hidden" id="authLoading">
+        <div class="loading-orb">✦</div>
+        <p>Invocando las sombras…</p>
+      </div>
+
+    </div><!-- /auth-panel -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 1 · CHARACTER CREATOR
+══════════════════════════════════════════ -->
+<div id="screenCreator" class="screen">
   <div class="creator-wrap">
 
     <aside class="preview-col">
       <div class="preview-card">
         <div class="preview-portrait" id="portrait">
-          <div class="portrait-void" id="portraitVoid"></div>
+          <div class="portrait-void"></div>
           <svg id="portraitSvg" viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="60" cy="170" rx="42" ry="22" class="cloak-shadow"/>
             <path id="svgCloak" d="M20 90 Q10 180 60 195 Q110 180 100 90 Q80 75 60 72 Q40 75 20 90Z" class="p-cloak"/>
             <path id="svgRobe"  d="M30 100 Q28 160 60 175 Q92 160 90 100 Q75 88 60 86 Q45 88 30 100Z" class="p-robe"/>
             <rect x="51" y="62" width="18" height="16" rx="5" class="p-skin"/>
-            <ellipse id="svgHead" cx="60" cy="50" rx="24" ry="26" class="p-skin"/>
+            <ellipse cx="60" cy="50" rx="24" ry="26" class="p-skin"/>
             <ellipse id="svgHair"  cx="60" cy="33" rx="25" ry="16" class="p-hair"/>
-            <rect    id="svgHairL" x="36" y="28" width="8" height="28" rx="4" class="p-hair"/>
-            <rect    id="svgHairR" x="76" y="28" width="8" height="28" rx="4" class="p-hair"/>
+            <rect    id="svgHairL" x="36"  y="28"  width="8" height="28" rx="4" class="p-hair"/>
+            <rect    id="svgHairR" x="76"  y="28"  width="8" height="28" rx="4" class="p-hair"/>
             <ellipse cx="50" cy="50" rx="5" ry="5" fill="#06040f"/>
             <ellipse cx="70" cy="50" rx="5" ry="5" fill="#06040f"/>
             <ellipse id="svgEyeL" cx="50" cy="50" rx="3" ry="3" class="p-eyes"/>
             <ellipse id="svgEyeR" cx="70" cy="50" rx="3" ry="3" class="p-eyes"/>
             <ellipse cx="50" cy="49" rx="1" ry="1" fill="rgba(255,255,255,0.55)"/>
             <ellipse cx="70" cy="49" rx="1" ry="1" fill="rgba(255,255,255,0.55)"/>
-            <path id="svgMouth" d="M53 62 Q60 67 67 62" stroke-width="1.5" fill="none" stroke-linecap="round" class="p-mouth"/>
+            <path d="M53 62 Q60 67 67 62" stroke-width="1.5" fill="none" stroke-linecap="round" class="p-mouth"/>
             <text id="svgMark" x="60" y="34" text-anchor="middle" font-size="10" class="p-mark">◆</text>
             <rect x="38" y="118" width="44" height="6" rx="3" class="p-belt"/>
             <ellipse cx="18" cy="140" rx="10" ry="9" class="p-skin"/>
             <ellipse cx="102" cy="140" rx="10" ry="9" class="p-skin"/>
-            <path d="M20 90 Q0 110 18 140"  stroke-width="14" fill="none" stroke-linecap="round" class="p-cloak-stroke"/>
+            <path d="M20 90 Q0 110 18 140"    stroke-width="14" fill="none" stroke-linecap="round" class="p-cloak-stroke"/>
             <path d="M100 90 Q120 110 102 140" stroke-width="14" fill="none" stroke-linecap="round" class="p-cloak-stroke"/>
           </svg>
-          <div class="portrait-runes" id="portraitRunes"></div>
         </div>
         <div class="preview-name"  id="previewName">???</div>
-        <div class="preview-title" id="previewTitle">Errante del Vacío</div>
+        <div class="preview-title">Errante del Vacío</div>
         <div class="preview-orbs">✦ 5 Orbes de Sombra</div>
+        <div class="preview-user" id="previewUser"></div>
       </div>
     </aside>
 
@@ -57,17 +148,14 @@
           <h1 class="game-title">VOIDBOUND</h1>
           <p class="game-sub">Forja tu forma antes de adentrarte en la corrupción</p>
         </div>
+        <button class="logout-btn" id="logoutBtnCreator" title="Cerrar sesión">⏏</button>
       </div>
 
       <div class="form-body">
-
         <div class="field-block">
           <label class="field-label"><span class="fn">I</span> Nombre del Cazador</label>
-          <div class="input-wrap">
-            <input id="inputName" type="text" class="void-input" placeholder="¿Quién eres tú en la oscuridad?" maxlength="18" autocomplete="off"/>
-          </div>
+          <input id="inputName" type="text" class="void-input" placeholder="¿Quién eres tú en la oscuridad?" maxlength="18" autocomplete="off"/>
         </div>
-
         <div class="field-block">
           <label class="field-label"><span class="fn">II</span> Tono de piel</label>
           <div class="swatch-row" id="swatchSkin">
@@ -76,11 +164,10 @@
             <button class="swatch"     data-val="#b5763c" style="background:#b5763c"></button>
             <button class="swatch"     data-val="#7a4520" style="background:#7a4520"></button>
             <button class="swatch"     data-val="#3a1a08" style="background:#3a1a08"></button>
-            <button class="swatch"     data-val="#c8d8d0" style="background:#c8d8d0" title="Pálida"></button>
-            <button class="swatch"     data-val="#b8a8d8" style="background:#b8a8d8" title="Élfica"></button>
+            <button class="swatch"     data-val="#c8d8d0" style="background:#c8d8d0"></button>
+            <button class="swatch"     data-val="#b8a8d8" style="background:#b8a8d8"></button>
           </div>
         </div>
-
         <div class="field-block">
           <label class="field-label"><span class="fn">III</span> Cabello</label>
           <div class="swatch-row" id="swatchHair">
@@ -95,7 +182,6 @@
             <button class="swatch"     data-val="#006060" style="background:#006060"></button>
           </div>
         </div>
-
         <div class="field-block">
           <label class="field-label"><span class="fn">IV</span> Ojos</label>
           <div class="swatch-row" id="swatchEyes">
@@ -108,7 +194,6 @@
             <button class="swatch"     data-val="#ff66cc" style="background:#ff66cc"></button>
           </div>
         </div>
-
         <div class="field-block">
           <label class="field-label"><span class="fn">V</span> Color de capa</label>
           <div class="swatch-row" id="swatchCloak">
@@ -120,7 +205,6 @@
             <button class="swatch"     data-cloak1="#202020" data-cloak2="#000000" style="background:linear-gradient(135deg,#202020,#000)"></button>
           </div>
         </div>
-
         <div class="field-block">
           <label class="field-label"><span class="fn">VI</span> Marca del Vacío</label>
           <div class="mark-grid" id="markGrid">
@@ -131,23 +215,20 @@
             <button class="mark-btn"     data-glyph="✝">✝</button>
             <button class="mark-btn"     data-glyph="ᚠ">ᚠ</button>
             <button class="mark-btn"     data-glyph="★">★</button>
-            <button class="mark-btn"     data-glyph=" "> ∅</button>
+            <button class="mark-btn"     data-glyph=" ">∅</button>
           </div>
         </div>
-
         <button class="enter-void-btn" id="enterBtn">
-          <span class="btn-hex">⬡</span>
-          Entrar al Vacío
-          <span class="btn-hex">⬡</span>
+          <span class="btn-hex">⬡</span> Entrar al Vacío <span class="btn-hex">⬡</span>
         </button>
-        <p class="fb-hint">⚠ Añade Firebase para guardar personajes y jugar online</p>
-
-      </div><!-- /form-body -->
+      </div>
     </main>
   </div>
 </div>
 
-<!-- ═══════════════ SCREEN 2 · WORLD ═══════════════ -->
+<!-- ══════════════════════════════════════════
+     SCREEN 2 · WORLD
+══════════════════════════════════════════ -->
 <div id="screenWorld" class="screen">
   <div class="world-hud">
     <div class="hud-left">
@@ -163,23 +244,25 @@
     </div>
     <div class="hud-right">
       <div class="hud-orbs" id="hudOrbs">✦ 5 Orbes</div>
+      <button class="logout-btn" id="logoutBtnWorld" title="Cerrar sesión">⏏</button>
     </div>
   </div>
   <canvas id="worldCanvas"></canvas>
-  <div class="move-hint" id="moveHint"><span>W A S D</span> para moverse · Toca una criatura para combatir</div>
+  <div class="move-hint"><span>W A S D</span> para moverse · Toca una criatura para combatir</div>
 </div>
 
-<!-- ═══════════════ SCREEN 3 · BATTLE ═══════════════ -->
+<!-- ══════════════════════════════════════════
+     SCREEN 3 · BATTLE
+══════════════════════════════════════════ -->
 <div id="screenBattle" class="screen">
   <canvas id="battleBg"></canvas>
   <div class="battle-ui">
-
     <div class="battle-top">
       <div class="b-card enemy-card">
         <div class="b-creature-display" id="bEnemySprite"></div>
         <div class="b-info-col">
           <div class="b-cname" id="bEnemyName">???</div>
-          <div class="b-tag"  id="bEnemyTag">TIPO DESCONOCIDO</div>
+          <div class="b-tag"   id="bEnemyTag">TIPO DESCONOCIDO</div>
           <div class="b-hp-row">
             <span class="b-hp-lbl">CORRUPCIÓN</span>
             <div class="b-bar"><div class="b-bar-fill enemy-fill" id="bEnemyFill" style="width:100%"></div></div>
@@ -191,7 +274,7 @@
         <div class="b-creature-display" id="bPlayerSprite"></div>
         <div class="b-info-col">
           <div class="b-cname" id="bPlayerCName">— sin criatura —</div>
-          <div class="b-tag"  id="bPlayerTag">—</div>
+          <div class="b-tag"   id="bPlayerTag">—</div>
           <div class="b-hp-row">
             <span class="b-hp-lbl">VIDA</span>
             <div class="b-bar"><div class="b-bar-fill player-fill" id="bPlayerFill" style="width:100%"></div></div>
@@ -200,16 +283,13 @@
         </div>
       </div>
     </div>
-
     <div class="battle-bottom">
-      <div class="battle-log-box" id="battleLog">
-        <p>Un ser de sombra emerge ante ti…</p>
-      </div>
+      <div class="battle-log-box" id="battleLog"><p>Un ser de sombra emerge ante ti…</p></div>
       <div class="battle-actions" id="battleActions">
-        <button class="b-btn" id="btnAttack">⚔ Atacar</button>
+        <button class="b-btn"           id="btnAttack">⚔ Atacar</button>
         <button class="b-btn capture-btn" id="btnCapture">✦ Orbe de Sombra</button>
-        <button class="b-btn" id="btnSwitch">↕ Cambiar criatura</button>
-        <button class="b-btn flee-btn" id="btnFlee">↩ Huir</button>
+        <button class="b-btn"           id="btnSwitch">↕ Cambiar criatura</button>
+        <button class="b-btn flee-btn"  id="btnFlee">↩ Huir</button>
       </div>
       <div class="moves-panel hidden" id="movesPanel"></div>
       <div class="switch-panel hidden" id="switchPanel"></div>
@@ -217,7 +297,9 @@
   </div>
 </div>
 
-<!-- ═══════════════ OVERLAY · CAPTURE ═══════════════ -->
+<!-- ══════════════════════════════════════════
+     OVERLAY · CAPTURE SUCCESS
+══════════════════════════════════════════ -->
 <div id="captureOverlay" class="overlay hidden">
   <div class="cap-card">
     <div class="cap-orb" id="capOrb">✦</div>
@@ -227,41 +309,7 @@
   </div>
 </div>
 
-<script src="game.js"></script>
-  <script type="module">
-
-  // Import the functions you need from the SDKs you need
-
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-
-  // TODO: Add SDKs for Firebase products that you want to use
-
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-
-  // Your web app's Firebase configuration
-
-  const firebaseConfig = {
-
-    apiKey: "AIzaSyBDXwWQugApZ6b7RpLgnDunqgDSA-DvoGQ",
-
-    authDomain: "aprigame-783bd.firebaseapp.com",
-
-    projectId: "aprigame-783bd",
-
-    storageBucket: "aprigame-783bd.firebasestorage.app",
-
-    messagingSenderId: "325997422938",
-
-    appId: "1:325997422938:web:928d324f73be4566a4ab63"
-
-  };
-
-
-  // Initialize Firebase
-
-  const app = initializeApp(firebaseConfig);
-
-</script>
+<!-- Firebase SDK (v10 modular via CDN) -->
+<script type="module" src="game.js"></script>
 </body>
 </html>
