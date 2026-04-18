@@ -1,318 +1,231 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Realm of Echoes — Crear Personaje</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voidbound — El Cazador de Sombras</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 </head>
 <body>
+<canvas id="bgCanvas"></canvas>
 
-  <!-- Ambient background particles -->
-  <canvas id="ambientCanvas"></canvas>
+<!-- ═══════════════ SCREEN 1 · CREATOR ═══════════════ -->
+<div id="screenCreator" class="screen active">
+  <div class="creator-wrap">
 
-  <!-- Theme toggle -->
-  <button class="theme-toggle" id="themeToggle" title="Cambiar tema">
-    <span class="theme-icon">☀</span>
-  </button>
-
-  <!-- Main layout -->
-  <div class="app-wrapper">
-
-    <!-- Left: Character Preview -->
-    <aside class="character-preview">
-      <div class="preview-frame">
-        <div class="character-silhouette" id="characterSilhouette">
-          <div class="char-aura" id="charAura"></div>
-          <svg class="char-svg" id="charSvg" viewBox="0 0 160 280" xmlns="http://www.w3.org/2000/svg">
-            <!-- Head -->
-            <ellipse cx="80" cy="45" rx="28" ry="32" class="skin-layer" />
-            <!-- Hair -->
-            <ellipse cx="80" cy="28" rx="30" ry="20" class="hair-layer" id="svgHair"/>
-            <!-- Eyes -->
-            <circle cx="70" cy="44" r="4" class="eye-white"/>
-            <circle cx="90" cy="44" r="4" class="eye-white"/>
-            <circle cx="70" cy="44" r="2.5" class="eye-iris" id="svgEyes"/>
-            <circle cx="90" cy="44" r="2.5" class="eye-iris" id="svgEyes2"/>
-            <!-- Mouth -->
-            <path d="M73 58 Q80 63 87 58" stroke="var(--char-mouth)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            <!-- Neck -->
-            <rect x="72" y="72" width="16" height="15" rx="4" class="skin-layer"/>
-            <!-- Body / Torso -->
-            <rect x="50" y="85" width="60" height="70" rx="10" class="armor-layer" id="svgArmor"/>
-            <!-- Arms -->
-            <rect x="20" y="87" width="28" height="60" rx="10" class="armor-layer"/>
-            <rect x="112" y="87" width="28" height="60" rx="10" class="armor-layer"/>
-            <!-- Hands -->
-            <ellipse cx="34" cy="155" rx="12" ry="10" class="skin-layer"/>
-            <ellipse cx="126" cy="155" rx="12" ry="10" class="skin-layer"/>
-            <!-- Legs -->
-            <rect x="52" y="153" width="24" height="70" rx="8" class="legs-layer" id="svgLegs"/>
-            <rect x="84" y="153" width="24" height="70" rx="8" class="legs-layer"/>
-            <!-- Feet -->
-            <ellipse cx="64" cy="228" rx="16" ry="8" class="boots-layer"/>
-            <ellipse cx="96" cy="228" rx="16" ry="8" class="boots-layer"/>
-            <!-- Class emblem -->
-            <text x="80" y="128" text-anchor="middle" class="class-emblem" id="classEmblem" font-size="22">⚔</text>
+    <aside class="preview-col">
+      <div class="preview-card">
+        <div class="preview-portrait" id="portrait">
+          <div class="portrait-void" id="portraitVoid"></div>
+          <svg id="portraitSvg" viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="60" cy="170" rx="42" ry="22" class="cloak-shadow"/>
+            <path id="svgCloak" d="M20 90 Q10 180 60 195 Q110 180 100 90 Q80 75 60 72 Q40 75 20 90Z" class="p-cloak"/>
+            <path id="svgRobe"  d="M30 100 Q28 160 60 175 Q92 160 90 100 Q75 88 60 86 Q45 88 30 100Z" class="p-robe"/>
+            <rect x="51" y="62" width="18" height="16" rx="5" class="p-skin"/>
+            <ellipse id="svgHead" cx="60" cy="50" rx="24" ry="26" class="p-skin"/>
+            <ellipse id="svgHair"  cx="60" cy="33" rx="25" ry="16" class="p-hair"/>
+            <rect    id="svgHairL" x="36" y="28" width="8" height="28" rx="4" class="p-hair"/>
+            <rect    id="svgHairR" x="76" y="28" width="8" height="28" rx="4" class="p-hair"/>
+            <ellipse cx="50" cy="50" rx="5" ry="5" fill="#06040f"/>
+            <ellipse cx="70" cy="50" rx="5" ry="5" fill="#06040f"/>
+            <ellipse id="svgEyeL" cx="50" cy="50" rx="3" ry="3" class="p-eyes"/>
+            <ellipse id="svgEyeR" cx="70" cy="50" rx="3" ry="3" class="p-eyes"/>
+            <ellipse cx="50" cy="49" rx="1" ry="1" fill="rgba(255,255,255,0.55)"/>
+            <ellipse cx="70" cy="49" rx="1" ry="1" fill="rgba(255,255,255,0.55)"/>
+            <path id="svgMouth" d="M53 62 Q60 67 67 62" stroke-width="1.5" fill="none" stroke-linecap="round" class="p-mouth"/>
+            <text id="svgMark" x="60" y="34" text-anchor="middle" font-size="10" class="p-mark">◆</text>
+            <rect x="38" y="118" width="44" height="6" rx="3" class="p-belt"/>
+            <ellipse cx="18" cy="140" rx="10" ry="9" class="p-skin"/>
+            <ellipse cx="102" cy="140" rx="10" ry="9" class="p-skin"/>
+            <path d="M20 90 Q0 110 18 140"  stroke-width="14" fill="none" stroke-linecap="round" class="p-cloak-stroke"/>
+            <path d="M100 90 Q120 110 102 140" stroke-width="14" fill="none" stroke-linecap="round" class="p-cloak-stroke"/>
           </svg>
+          <div class="portrait-runes" id="portraitRunes"></div>
         </div>
-
-        <div class="char-name-display" id="charNameDisplay">Tu Héroe</div>
-        <div class="char-class-display" id="charClassDisplay">Sin clase</div>
-
-        <!-- Stats mini panel -->
-        <div class="mini-stats">
-          <div class="stat-bar-row">
-            <span>VIT</span>
-            <div class="stat-bar"><div class="stat-fill vit-fill" id="vitFill"></div></div>
-          </div>
-          <div class="stat-bar-row">
-            <span>FUE</span>
-            <div class="stat-bar"><div class="stat-fill str-fill" id="strFill"></div></div>
-          </div>
-          <div class="stat-bar-row">
-            <span>INT</span>
-            <div class="stat-bar"><div class="stat-fill int-fill" id="intFill"></div></div>
-          </div>
-          <div class="stat-bar-row">
-            <span>AGI</span>
-            <div class="stat-bar"><div class="stat-fill agi-fill" id="agiFill"></div></div>
-          </div>
-        </div>
+        <div class="preview-name"  id="previewName">???</div>
+        <div class="preview-title" id="previewTitle">Errante del Vacío</div>
+        <div class="preview-orbs">✦ 5 Orbes de Sombra</div>
       </div>
     </aside>
 
-    <!-- Right: Creation Form -->
-    <main class="creation-panel">
-      <header class="panel-header">
-        <div class="logo-lockup">
-          <span class="logo-rune">᛭</span>
-          <div>
-            <h1 class="game-title">Realm of Echoes</h1>
-            <p class="game-sub">Forja tu leyenda</p>
+    <main class="form-col">
+      <div class="form-header">
+        <span class="header-sigil">⬡</span>
+        <div>
+          <h1 class="game-title">VOIDBOUND</h1>
+          <p class="game-sub">Forja tu forma antes de adentrarte en la corrupción</p>
+        </div>
+      </div>
+
+      <div class="form-body">
+
+        <div class="field-block">
+          <label class="field-label"><span class="fn">I</span> Nombre del Cazador</label>
+          <div class="input-wrap">
+            <input id="inputName" type="text" class="void-input" placeholder="¿Quién eres tú en la oscuridad?" maxlength="18" autocomplete="off"/>
           </div>
         </div>
-      </header>
 
-      <div class="form-scroll">
-
-        <!-- Step 1: Name -->
-        <section class="form-section" data-step="1">
-          <label class="section-label">
-            <span class="label-num">01</span>
-            <span>Nombre del héroe</span>
-          </label>
-          <div class="input-wrapper">
-            <input type="text" id="heroName" class="hero-input" placeholder="Escribe tu nombre…" maxlength="20" autocomplete="off" />
-            <span class="input-icon">✦</span>
+        <div class="field-block">
+          <label class="field-label"><span class="fn">II</span> Tono de piel</label>
+          <div class="swatch-row" id="swatchSkin">
+            <button class="swatch sel" data-val="#f5d5b0" style="background:#f5d5b0"></button>
+            <button class="swatch"     data-val="#e0a870" style="background:#e0a870"></button>
+            <button class="swatch"     data-val="#b5763c" style="background:#b5763c"></button>
+            <button class="swatch"     data-val="#7a4520" style="background:#7a4520"></button>
+            <button class="swatch"     data-val="#3a1a08" style="background:#3a1a08"></button>
+            <button class="swatch"     data-val="#c8d8d0" style="background:#c8d8d0" title="Pálida"></button>
+            <button class="swatch"     data-val="#b8a8d8" style="background:#b8a8d8" title="Élfica"></button>
           </div>
-        </section>
-
-        <!-- Step 2: Race -->
-        <section class="form-section" data-step="2">
-          <label class="section-label">
-            <span class="label-num">02</span>
-            <span>Raza</span>
-          </label>
-          <div class="card-grid" id="raceGrid">
-            <div class="choice-card selected" data-race="human" data-skin="#e8c49a" data-bonus="Equilibrado">
-              <span class="card-icon">👤</span>
-              <span class="card-name">Humano</span>
-              <span class="card-sub">+2 todos los atributos</span>
-            </div>
-            <div class="choice-card" data-race="elf" data-skin="#c8e8d0" data-bonus="Ágil">
-              <span class="card-icon">🌿</span>
-              <span class="card-name">Elfo</span>
-              <span class="card-sub">+4 AGI / +4 INT</span>
-            </div>
-            <div class="choice-card" data-race="dwarf" data-skin="#d4a87a" data-bonus="Resistente">
-              <span class="card-icon">⛏</span>
-              <span class="card-name">Enano</span>
-              <span class="card-sub">+6 VIT / +2 FUE</span>
-            </div>
-            <div class="choice-card" data-race="orc" data-skin="#a8c87a" data-bonus="Brutal">
-              <span class="card-icon">💀</span>
-              <span class="card-name">Orco</span>
-              <span class="card-sub">+8 FUE / -2 INT</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- Step 3: Class -->
-        <section class="form-section" data-step="3">
-          <label class="section-label">
-            <span class="label-num">03</span>
-            <span>Clase</span>
-          </label>
-          <div class="class-grid" id="classGrid">
-            <div class="class-card selected" data-class="warrior" data-emblem="⚔" data-color="#c0392b" data-armor="#8B4513">
-              <div class="class-glow"></div>
-              <span class="class-icon">⚔️</span>
-              <span class="class-name">Guerrero</span>
-              <p class="class-desc">Tanque imparable. Primera línea de batalla.</p>
-            </div>
-            <div class="class-card" data-class="mage" data-emblem="✦" data-color="#8e44ad" data-armor="#2c3e50">
-              <div class="class-glow"></div>
-              <span class="class-icon">🔮</span>
-              <span class="class-name">Mago</span>
-              <p class="class-desc">Maestro del arcano. Daño devastador.</p>
-            </div>
-            <div class="class-card" data-class="rogue" data-emblem="🗡" data-color="#27ae60" data-armor="#1a1a2e">
-              <div class="class-glow"></div>
-              <span class="class-icon">🗡️</span>
-              <span class="class-name">Pícaro</span>
-              <p class="class-desc">Sombra y velocidad. Golpea y desaparece.</p>
-            </div>
-            <div class="class-card" data-class="paladin" data-emblem="✝" data-color="#f39c12" data-armor="#b8860b">
-              <div class="class-glow"></div>
-              <span class="class-icon">🛡️</span>
-              <span class="class-name">Paladín</span>
-              <p class="class-desc">Luz divina. Protege y sana al grupo.</p>
-            </div>
-            <div class="class-card" data-class="archer" data-emblem="🏹" data-color="#16a085" data-armor="#2d6a4f">
-              <div class="class-glow"></div>
-              <span class="class-icon">🏹</span>
-              <span class="class-name">Arquero</span>
-              <p class="class-desc">Largo alcance. Precisión letal.</p>
-            </div>
-            <div class="class-card" data-class="necro" data-emblem="💀" data-color="#6c3483" data-armor="#1c1c2e">
-              <div class="class-glow"></div>
-              <span class="class-icon">💀</span>
-              <span class="class-name">Nigromante</span>
-              <p class="class-desc">Invoca a los muertos. El caos hecho arte.</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Step 4: Appearance -->
-        <section class="form-section" data-step="4">
-          <label class="section-label">
-            <span class="label-num">04</span>
-            <span>Apariencia</span>
-          </label>
-          <div class="appearance-grid">
-            <div class="appear-item">
-              <span class="appear-label">Color de cabello</span>
-              <div class="color-swatches" id="hairColors">
-                <button class="swatch selected" data-color="#1a0a00" style="background:#1a0a00" title="Negro"></button>
-                <button class="swatch" data-color="#8B4513" style="background:#8B4513" title="Castaño"></button>
-                <button class="swatch" data-color="#DAA520" style="background:#DAA520" title="Rubio"></button>
-                <button class="swatch" data-color="#c0392b" style="background:#c0392b" title="Rojo"></button>
-                <button class="swatch" data-color="#95a5a6" style="background:#95a5a6" title="Gris"></button>
-                <button class="swatch" data-color="#ecf0f1" style="background:#ecf0f1;border:1px solid #ccc" title="Blanco"></button>
-                <button class="swatch" data-color="#8e44ad" style="background:#8e44ad" title="Morado"></button>
-                <button class="swatch" data-color="#16a085" style="background:#16a085" title="Verde"></button>
-              </div>
-            </div>
-            <div class="appear-item">
-              <span class="appear-label">Color de ojos</span>
-              <div class="color-swatches" id="eyeColors">
-                <button class="swatch selected" data-color="#2c3e50" style="background:#2c3e50" title="Negro"></button>
-                <button class="swatch" data-color="#784212" style="background:#784212" title="Marrón"></button>
-                <button class="swatch" data-color="#1a5276" style="background:#1a5276" title="Azul"></button>
-                <button class="swatch" data-color="#1e8449" style="background:#1e8449" title="Verde"></button>
-                <button class="swatch" data-color="#9b59b6" style="background:#9b59b6" title="Violeta"></button>
-                <button class="swatch" data-color="#e67e22" style="background:#e67e22" title="Ámbar"></button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Step 5: Stats distribution -->
-        <section class="form-section" data-step="5">
-          <label class="section-label">
-            <span class="label-num">05</span>
-            <span>Distribuir atributos <span class="points-badge" id="pointsBadge">10 pts restantes</span></span>
-          </label>
-          <div class="stats-grid">
-            <div class="stat-row" data-stat="vit">
-              <div class="stat-info">
-                <span class="stat-name">❤ Vitalidad</span>
-                <span class="stat-hint">Aumenta HP</span>
-              </div>
-              <div class="stat-controls">
-                <button class="stat-btn minus" data-stat="vit">−</button>
-                <span class="stat-val" id="vitVal">0</span>
-                <button class="stat-btn plus" data-stat="vit">+</button>
-              </div>
-            </div>
-            <div class="stat-row" data-stat="str">
-              <div class="stat-info">
-                <span class="stat-name">💪 Fuerza</span>
-                <span class="stat-hint">Daño físico</span>
-              </div>
-              <div class="stat-controls">
-                <button class="stat-btn minus" data-stat="str">−</button>
-                <span class="stat-val" id="strVal">0</span>
-                <button class="stat-btn plus" data-stat="str">+</button>
-              </div>
-            </div>
-            <div class="stat-row" data-stat="int">
-              <div class="stat-info">
-                <span class="stat-name">🧠 Inteligencia</span>
-                <span class="stat-hint">Poder mágico</span>
-              </div>
-              <div class="stat-controls">
-                <button class="stat-btn minus" data-stat="int">−</button>
-                <span class="stat-val" id="intVal">0</span>
-                <button class="stat-btn plus" data-stat="int">+</button>
-              </div>
-            </div>
-            <div class="stat-row" data-stat="agi">
-              <div class="stat-info">
-                <span class="stat-name">⚡ Agilidad</span>
-                <span class="stat-hint">Velocidad y evasión</span>
-              </div>
-              <div class="stat-controls">
-                <button class="stat-btn minus" data-stat="agi">−</button>
-                <span class="stat-val" id="agiVal">0</span>
-                <button class="stat-btn plus" data-stat="agi">+</button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Create button -->
-        <div class="create-action">
-          <button class="create-btn" id="createBtn">
-            <span class="btn-rune">᛭</span>
-            Crear Personaje
-            <span class="btn-rune">᛭</span>
-          </button>
-          <p class="firebase-note" id="firebaseNote">⚠ Conecta Firebase para guardar en la nube</p>
         </div>
 
-      </div><!-- end form-scroll -->
+        <div class="field-block">
+          <label class="field-label"><span class="fn">III</span> Cabello</label>
+          <div class="swatch-row" id="swatchHair">
+            <button class="swatch sel" data-val="#0d0d0d" style="background:#0d0d0d;border-color:#555"></button>
+            <button class="swatch"     data-val="#2c1a0e" style="background:#2c1a0e"></button>
+            <button class="swatch"     data-val="#8b4513" style="background:#8b4513"></button>
+            <button class="swatch"     data-val="#c8a020" style="background:#c8a020"></button>
+            <button class="swatch"     data-val="#d0d0d0" style="background:#d0d0d0"></button>
+            <button class="swatch"     data-val="#ffffff" style="background:#fff;border-color:#555"></button>
+            <button class="swatch"     data-val="#6a0dad" style="background:#6a0dad"></button>
+            <button class="swatch"     data-val="#8b0000" style="background:#8b0000"></button>
+            <button class="swatch"     data-val="#006060" style="background:#006060"></button>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label class="field-label"><span class="fn">IV</span> Ojos</label>
+          <div class="swatch-row" id="swatchEyes">
+            <button class="swatch sel" data-val="#7b2fff" style="background:#7b2fff"></button>
+            <button class="swatch"     data-val="#ff3a3a" style="background:#ff3a3a"></button>
+            <button class="swatch"     data-val="#00e5cc" style="background:#00e5cc"></button>
+            <button class="swatch"     data-val="#ff9900" style="background:#ff9900"></button>
+            <button class="swatch"     data-val="#00ff88" style="background:#00ff88"></button>
+            <button class="swatch"     data-val="#ffffff" style="background:#fff;border-color:#555"></button>
+            <button class="swatch"     data-val="#ff66cc" style="background:#ff66cc"></button>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label class="field-label"><span class="fn">V</span> Color de capa</label>
+          <div class="swatch-row" id="swatchCloak">
+            <button class="swatch sel" data-cloak1="#1a0a2e" data-cloak2="#0d0520" style="background:linear-gradient(135deg,#1a0a2e,#0d0520)"></button>
+            <button class="swatch"     data-cloak1="#0a1a0a" data-cloak2="#001400" style="background:linear-gradient(135deg,#0a1a0a,#001400)"></button>
+            <button class="swatch"     data-cloak1="#2a0a0a" data-cloak2="#1a0000" style="background:linear-gradient(135deg,#2a0a0a,#1a0000)"></button>
+            <button class="swatch"     data-cloak1="#0a1a30" data-cloak2="#001018" style="background:linear-gradient(135deg,#0a1a30,#001018)"></button>
+            <button class="swatch"     data-cloak1="#2a2a00" data-cloak2="#1a1600" style="background:linear-gradient(135deg,#2a2a00,#1a1600)"></button>
+            <button class="swatch"     data-cloak1="#202020" data-cloak2="#000000" style="background:linear-gradient(135deg,#202020,#000)"></button>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label class="field-label"><span class="fn">VI</span> Marca del Vacío</label>
+          <div class="mark-grid" id="markGrid">
+            <button class="mark-btn sel" data-glyph="◆">◆</button>
+            <button class="mark-btn"     data-glyph="⊗">⊗</button>
+            <button class="mark-btn"     data-glyph="▲">▲</button>
+            <button class="mark-btn"     data-glyph="꩜">꩜</button>
+            <button class="mark-btn"     data-glyph="✝">✝</button>
+            <button class="mark-btn"     data-glyph="ᚠ">ᚠ</button>
+            <button class="mark-btn"     data-glyph="★">★</button>
+            <button class="mark-btn"     data-glyph=" "> ∅</button>
+          </div>
+        </div>
+
+        <button class="enter-void-btn" id="enterBtn">
+          <span class="btn-hex">⬡</span>
+          Entrar al Vacío
+          <span class="btn-hex">⬡</span>
+        </button>
+        <p class="fb-hint">⚠ Añade Firebase para guardar personajes y jugar online</p>
+
+      </div><!-- /form-body -->
     </main>
   </div>
+</div>
 
-  <!-- World map / game area (post-character creation) -->
-  <div class="game-world hidden" id="gameWorld">
-    <div class="world-hud">
-      <div class="hud-name" id="hudName">Hero</div>
-      <div class="hud-stats">
-        <span id="hudClass">⚔ Guerrero</span>
-        <span class="hud-sep">|</span>
-        <span id="hudRace">Humano</span>
+<!-- ═══════════════ SCREEN 2 · WORLD ═══════════════ -->
+<div id="screenWorld" class="screen">
+  <div class="world-hud">
+    <div class="hud-left">
+      <div class="hud-eye" id="hudEye"></div>
+      <div>
+        <div class="hud-name" id="hudName">—</div>
+        <div class="hud-sub">Cazador de Sombras</div>
       </div>
     </div>
-    <canvas id="worldCanvas"></canvas>
-    <div class="movement-hint">
-      <span>WASD</span> o <span>↑↓←→</span> para mover
+    <div class="hud-center">
+      <div class="hud-label">CRIATURAS CAPTURADAS</div>
+      <div class="hud-creatures" id="hudCreatures">ninguna aún</div>
+    </div>
+    <div class="hud-right">
+      <div class="hud-orbs" id="hudOrbs">✦ 5 Orbes</div>
     </div>
   </div>
+  <canvas id="worldCanvas"></canvas>
+  <div class="move-hint" id="moveHint"><span>W A S D</span> para moverse · Toca una criatura para combatir</div>
+</div>
 
-  <!-- Success overlay -->
-  <div class="success-overlay hidden" id="successOverlay">
-    <div class="success-card">
-      <div class="success-rune">᛭</div>
-      <h2>¡Leyenda forjada!</h2>
-      <p id="successMsg">Tu aventura comienza ahora…</p>
-      <button class="enter-btn" id="enterWorldBtn">Entrar al Mundo</button>
+<!-- ═══════════════ SCREEN 3 · BATTLE ═══════════════ -->
+<div id="screenBattle" class="screen">
+  <canvas id="battleBg"></canvas>
+  <div class="battle-ui">
+
+    <div class="battle-top">
+      <div class="b-card enemy-card">
+        <div class="b-creature-display" id="bEnemySprite"></div>
+        <div class="b-info-col">
+          <div class="b-cname" id="bEnemyName">???</div>
+          <div class="b-tag"  id="bEnemyTag">TIPO DESCONOCIDO</div>
+          <div class="b-hp-row">
+            <span class="b-hp-lbl">CORRUPCIÓN</span>
+            <div class="b-bar"><div class="b-bar-fill enemy-fill" id="bEnemyFill" style="width:100%"></div></div>
+            <span class="b-hp-num" id="bEnemyNum">100</span>
+          </div>
+        </div>
+      </div>
+      <div class="b-card player-card">
+        <div class="b-creature-display" id="bPlayerSprite"></div>
+        <div class="b-info-col">
+          <div class="b-cname" id="bPlayerCName">— sin criatura —</div>
+          <div class="b-tag"  id="bPlayerTag">—</div>
+          <div class="b-hp-row">
+            <span class="b-hp-lbl">VIDA</span>
+            <div class="b-bar"><div class="b-bar-fill player-fill" id="bPlayerFill" style="width:100%"></div></div>
+            <span class="b-hp-num" id="bPlayerNum">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="battle-bottom">
+      <div class="battle-log-box" id="battleLog">
+        <p>Un ser de sombra emerge ante ti…</p>
+      </div>
+      <div class="battle-actions" id="battleActions">
+        <button class="b-btn" id="btnAttack">⚔ Atacar</button>
+        <button class="b-btn capture-btn" id="btnCapture">✦ Orbe de Sombra</button>
+        <button class="b-btn" id="btnSwitch">↕ Cambiar criatura</button>
+        <button class="b-btn flee-btn" id="btnFlee">↩ Huir</button>
+      </div>
+      <div class="moves-panel hidden" id="movesPanel"></div>
+      <div class="switch-panel hidden" id="switchPanel"></div>
     </div>
   </div>
+</div>
 
-  <script src="game.js"></script>
+<!-- ═══════════════ OVERLAY · CAPTURE ═══════════════ -->
+<div id="captureOverlay" class="overlay hidden">
+  <div class="cap-card">
+    <div class="cap-orb" id="capOrb">✦</div>
+    <h2 id="capTitle">¡Sometida!</h2>
+    <p  id="capDesc"></p>
+    <button class="cap-ok" id="capOk">Continuar la cacería</button>
+  </div>
+</div>
+
+<script src="game.js"></script>
 </body>
 </html>
