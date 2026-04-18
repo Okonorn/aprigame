@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Realm of Echoes — Crear Personaje</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Ambient background particles -->
+  <canvas id="ambientCanvas"></canvas>
+
+  <!-- Theme toggle -->
+  <button class="theme-toggle" id="themeToggle" title="Cambiar tema">
+    <span class="theme-icon">☀</span>
+  </button>
+
+  <!-- Main layout -->
+  <div class="app-wrapper">
+
+    <!-- Left: Character Preview -->
+    <aside class="character-preview">
+      <div class="preview-frame">
+        <div class="character-silhouette" id="characterSilhouette">
+          <div class="char-aura" id="charAura"></div>
+          <svg class="char-svg" id="charSvg" viewBox="0 0 160 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head -->
+            <ellipse cx="80" cy="45" rx="28" ry="32" class="skin-layer" />
+            <!-- Hair -->
+            <ellipse cx="80" cy="28" rx="30" ry="20" class="hair-layer" id="svgHair"/>
+            <!-- Eyes -->
+            <circle cx="70" cy="44" r="4" class="eye-white"/>
+            <circle cx="90" cy="44" r="4" class="eye-white"/>
+            <circle cx="70" cy="44" r="2.5" class="eye-iris" id="svgEyes"/>
+            <circle cx="90" cy="44" r="2.5" class="eye-iris" id="svgEyes2"/>
+            <!-- Mouth -->
+            <path d="M73 58 Q80 63 87 58" stroke="var(--char-mouth)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Neck -->
+            <rect x="72" y="72" width="16" height="15" rx="4" class="skin-layer"/>
+            <!-- Body / Torso -->
+            <rect x="50" y="85" width="60" height="70" rx="10" class="armor-layer" id="svgArmor"/>
+            <!-- Arms -->
+            <rect x="20" y="87" width="28" height="60" rx="10" class="armor-layer"/>
+            <rect x="112" y="87" width="28" height="60" rx="10" class="armor-layer"/>
+            <!-- Hands -->
+            <ellipse cx="34" cy="155" rx="12" ry="10" class="skin-layer"/>
+            <ellipse cx="126" cy="155" rx="12" ry="10" class="skin-layer"/>
+            <!-- Legs -->
+            <rect x="52" y="153" width="24" height="70" rx="8" class="legs-layer" id="svgLegs"/>
+            <rect x="84" y="153" width="24" height="70" rx="8" class="legs-layer"/>
+            <!-- Feet -->
+            <ellipse cx="64" cy="228" rx="16" ry="8" class="boots-layer"/>
+            <ellipse cx="96" cy="228" rx="16" ry="8" class="boots-layer"/>
+            <!-- Class emblem -->
+            <text x="80" y="128" text-anchor="middle" class="class-emblem" id="classEmblem" font-size="22">⚔</text>
+          </svg>
+        </div>
+
+        <div class="char-name-display" id="charNameDisplay">Tu Héroe</div>
+        <div class="char-class-display" id="charClassDisplay">Sin clase</div>
+
+        <!-- Stats mini panel -->
+        <div class="mini-stats">
+          <div class="stat-bar-row">
+            <span>VIT</span>
+            <div class="stat-bar"><div class="stat-fill vit-fill" id="vitFill"></div></div>
+          </div>
+          <div class="stat-bar-row">
+            <span>FUE</span>
+            <div class="stat-bar"><div class="stat-fill str-fill" id="strFill"></div></div>
+          </div>
+          <div class="stat-bar-row">
+            <span>INT</span>
+            <div class="stat-bar"><div class="stat-fill int-fill" id="intFill"></div></div>
+          </div>
+          <div class="stat-bar-row">
+            <span>AGI</span>
+            <div class="stat-bar"><div class="stat-fill agi-fill" id="agiFill"></div></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right: Creation Form -->
+    <main class="creation-panel">
+      <header class="panel-header">
+        <div class="logo-lockup">
+          <span class="logo-rune">᛭</span>
+          <div>
+            <h1 class="game-title">Realm of Echoes</h1>
+            <p class="game-sub">Forja tu leyenda</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="form-scroll">
+
+        <!-- Step 1: Name -->
+        <section class="form-section" data-step="1">
+          <label class="section-label">
+            <span class="label-num">01</span>
+            <span>Nombre del héroe</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="text" id="heroName" class="hero-input" placeholder="Escribe tu nombre…" maxlength="20" autocomplete="off" />
+            <span class="input-icon">✦</span>
+          </div>
+        </section>
+
+        <!-- Step 2: Race -->
+        <section class="form-section" data-step="2">
+          <label class="section-label">
+            <span class="label-num">02</span>
+            <span>Raza</span>
+          </label>
+          <div class="card-grid" id="raceGrid">
+            <div class="choice-card selected" data-race="human" data-skin="#e8c49a" data-bonus="Equilibrado">
+              <span class="card-icon">👤</span>
+              <span class="card-name">Humano</span>
+              <span class="card-sub">+2 todos los atributos</span>
+            </div>
+            <div class="choice-card" data-race="elf" data-skin="#c8e8d0" data-bonus="Ágil">
+              <span class="card-icon">🌿</span>
+              <span class="card-name">Elfo</span>
+              <span class="card-sub">+4 AGI / +4 INT</span>
+            </div>
+            <div class="choice-card" data-race="dwarf" data-skin="#d4a87a" data-bonus="Resistente">
+              <span class="card-icon">⛏</span>
+              <span class="card-name">Enano</span>
+              <span class="card-sub">+6 VIT / +2 FUE</span>
+            </div>
+            <div class="choice-card" data-race="orc" data-skin="#a8c87a" data-bonus="Brutal">
+              <span class="card-icon">💀</span>
+              <span class="card-name">Orco</span>
+              <span class="card-sub">+8 FUE / -2 INT</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 3: Class -->
+        <section class="form-section" data-step="3">
+          <label class="section-label">
+            <span class="label-num">03</span>
+            <span>Clase</span>
+          </label>
+          <div class="class-grid" id="classGrid">
+            <div class="class-card selected" data-class="warrior" data-emblem="⚔" data-color="#c0392b" data-armor="#8B4513">
+              <div class="class-glow"></div>
+              <span class="class-icon">⚔️</span>
+              <span class="class-name">Guerrero</span>
+              <p class="class-desc">Tanque imparable. Primera línea de batalla.</p>
+            </div>
+            <div class="class-card" data-class="mage" data-emblem="✦" data-color="#8e44ad" data-armor="#2c3e50">
+              <div class="class-glow"></div>
+              <span class="class-icon">🔮</span>
+              <span class="class-name">Mago</span>
+              <p class="class-desc">Maestro del arcano. Daño devastador.</p>
+            </div>
+            <div class="class-card" data-class="rogue" data-emblem="🗡" data-color="#27ae60" data-armor="#1a1a2e">
+              <div class="class-glow"></div>
+              <span class="class-icon">🗡️</span>
+              <span class="class-name">Pícaro</span>
+              <p class="class-desc">Sombra y velocidad. Golpea y desaparece.</p>
+            </div>
+            <div class="class-card" data-class="paladin" data-emblem="✝" data-color="#f39c12" data-armor="#b8860b">
+              <div class="class-glow"></div>
+              <span class="class-icon">🛡️</span>
+              <span class="class-name">Paladín</span>
+              <p class="class-desc">Luz divina. Protege y sana al grupo.</p>
+            </div>
+            <div class="class-card" data-class="archer" data-emblem="🏹" data-color="#16a085" data-armor="#2d6a4f">
+              <div class="class-glow"></div>
+              <span class="class-icon">🏹</span>
+              <span class="class-name">Arquero</span>
+              <p class="class-desc">Largo alcance. Precisión letal.</p>
+            </div>
+            <div class="class-card" data-class="necro" data-emblem="💀" data-color="#6c3483" data-armor="#1c1c2e">
+              <div class="class-glow"></div>
+              <span class="class-icon">💀</span>
+              <span class="class-name">Nigromante</span>
+              <p class="class-desc">Invoca a los muertos. El caos hecho arte.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 4: Appearance -->
+        <section class="form-section" data-step="4">
+          <label class="section-label">
+            <span class="label-num">04</span>
+            <span>Apariencia</span>
+          </label>
+          <div class="appearance-grid">
+            <div class="appear-item">
+              <span class="appear-label">Color de cabello</span>
+              <div class="color-swatches" id="hairColors">
+                <button class="swatch selected" data-color="#1a0a00" style="background:#1a0a00" title="Negro"></button>
+                <button class="swatch" data-color="#8B4513" style="background:#8B4513" title="Castaño"></button>
+                <button class="swatch" data-color="#DAA520" style="background:#DAA520" title="Rubio"></button>
+                <button class="swatch" data-color="#c0392b" style="background:#c0392b" title="Rojo"></button>
+                <button class="swatch" data-color="#95a5a6" style="background:#95a5a6" title="Gris"></button>
+                <button class="swatch" data-color="#ecf0f1" style="background:#ecf0f1;border:1px solid #ccc" title="Blanco"></button>
+                <button class="swatch" data-color="#8e44ad" style="background:#8e44ad" title="Morado"></button>
+                <button class="swatch" data-color="#16a085" style="background:#16a085" title="Verde"></button>
+              </div>
+            </div>
+            <div class="appear-item">
+              <span class="appear-label">Color de ojos</span>
+              <div class="color-swatches" id="eyeColors">
+                <button class="swatch selected" data-color="#2c3e50" style="background:#2c3e50" title="Negro"></button>
+                <button class="swatch" data-color="#784212" style="background:#784212" title="Marrón"></button>
+                <button class="swatch" data-color="#1a5276" style="background:#1a5276" title="Azul"></button>
+                <button class="swatch" data-color="#1e8449" style="background:#1e8449" title="Verde"></button>
+                <button class="swatch" data-color="#9b59b6" style="background:#9b59b6" title="Violeta"></button>
+                <button class="swatch" data-color="#e67e22" style="background:#e67e22" title="Ámbar"></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 5: Stats distribution -->
+        <section class="form-section" data-step="5">
+          <label class="section-label">
+            <span class="label-num">05</span>
+            <span>Distribuir atributos <span class="points-badge" id="pointsBadge">10 pts restantes</span></span>
+          </label>
+          <div class="stats-grid">
+            <div class="stat-row" data-stat="vit">
+              <div class="stat-info">
+                <span class="stat-name">❤ Vitalidad</span>
+                <span class="stat-hint">Aumenta HP</span>
+              </div>
+              <div class="stat-controls">
+                <button class="stat-btn minus" data-stat="vit">−</button>
+                <span class="stat-val" id="vitVal">0</span>
+                <button class="stat-btn plus" data-stat="vit">+</button>
+              </div>
+            </div>
+            <div class="stat-row" data-stat="str">
+              <div class="stat-info">
+                <span class="stat-name">💪 Fuerza</span>
+                <span class="stat-hint">Daño físico</span>
+              </div>
+              <div class="stat-controls">
+                <button class="stat-btn minus" data-stat="str">−</button>
+                <span class="stat-val" id="strVal">0</span>
+                <button class="stat-btn plus" data-stat="str">+</button>
+              </div>
+            </div>
+            <div class="stat-row" data-stat="int">
+              <div class="stat-info">
+                <span class="stat-name">🧠 Inteligencia</span>
+                <span class="stat-hint">Poder mágico</span>
+              </div>
+              <div class="stat-controls">
+                <button class="stat-btn minus" data-stat="int">−</button>
+                <span class="stat-val" id="intVal">0</span>
+                <button class="stat-btn plus" data-stat="int">+</button>
+              </div>
+            </div>
+            <div class="stat-row" data-stat="agi">
+              <div class="stat-info">
+                <span class="stat-name">⚡ Agilidad</span>
+                <span class="stat-hint">Velocidad y evasión</span>
+              </div>
+              <div class="stat-controls">
+                <button class="stat-btn minus" data-stat="agi">−</button>
+                <span class="stat-val" id="agiVal">0</span>
+                <button class="stat-btn plus" data-stat="agi">+</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Create button -->
+        <div class="create-action">
+          <button class="create-btn" id="createBtn">
+            <span class="btn-rune">᛭</span>
+            Crear Personaje
+            <span class="btn-rune">᛭</span>
+          </button>
+          <p class="firebase-note" id="firebaseNote">⚠ Conecta Firebase para guardar en la nube</p>
+        </div>
+
+      </div><!-- end form-scroll -->
+    </main>
+  </div>
+
+  <!-- World map / game area (post-character creation) -->
+  <div class="game-world hidden" id="gameWorld">
+    <div class="world-hud">
+      <div class="hud-name" id="hudName">Hero</div>
+      <div class="hud-stats">
+        <span id="hudClass">⚔ Guerrero</span>
+        <span class="hud-sep">|</span>
+        <span id="hudRace">Humano</span>
+      </div>
+    </div>
+    <canvas id="worldCanvas"></canvas>
+    <div class="movement-hint">
+      <span>WASD</span> o <span>↑↓←→</span> para mover
+    </div>
+  </div>
+
+  <!-- Success overlay -->
+  <div class="success-overlay hidden" id="successOverlay">
+    <div class="success-card">
+      <div class="success-rune">᛭</div>
+      <h2>¡Leyenda forjada!</h2>
+      <p id="successMsg">Tu aventura comienza ahora…</p>
+      <button class="enter-btn" id="enterWorldBtn">Entrar al Mundo</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
