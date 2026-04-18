@@ -7,6 +7,21 @@
 
 /* ── Variables ───────────────────────────────── */
 :root {
+   body.light {
+  --void:       #f4f4f8;
+  --deep:       #ffffff;
+  --surface:    #eaeaf0;
+  --panel:      #ffffff;
+  --panel2:     #f1f1f6;
+  --border:     #d0d0e0;
+  --border2:    #b0b0c0;
+  --accent:     #6b4eff;
+  --accent2:    #8b6eff;
+  --glow:       rgba(100,80,255,0.2);
+  --text:       #1a1a2a;
+  --text2:      #555;
+  --text3:      #888;
+}
   --void:       #06040f;
   --deep:       #0d0a1a;
   --surface:    #130e22;
