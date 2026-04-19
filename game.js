@@ -45,7 +45,7 @@ const SPRITE_CONFIG = {
 
   // Sheets animados para el mundo (144×192px, estilo RPG Maker MV)
   worldLayers: [
-    { id:"body",   src:"assets/body.png",         tint:true,  tintKey:"skinColor" },
+    { id:"body",   src:"https://github.com/Okonorn/aprigame/blob/main/assets/body.png",         tint:true,  tintKey:"skinColor" },
     { id:"outfit", src:"assets/character/world/outfit_sheet.png",       tint:false },
     { id:"eyes",   src:"assets/character/world/eyes_sheet.png",         tint:true,  tintKey:"eyeColor"  },
     { id:"hair",   src:"assets/character/world/hair_{idx}_sheet.png",   tint:true,  tintKey:"hairColor", hasVariants:true, variantKey:"hairIdx" },
