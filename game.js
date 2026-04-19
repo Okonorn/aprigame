@@ -53,7 +53,7 @@ const SPRITE_CONFIG = {
 
   // PNGs estáticos para el creador (192×256px recomendado)
   creatorLayers: [
-    { id:"body",   src:"assets/character/creator/body.png",             tint:true,  tintKey:"skinColor" },
+    { id:"body",   src:"assets/body.png",             tint:true,  tintKey:"skinColor" },
     { id:"outfit", src:"assets/character/creator/outfit_00.png",        tint:false },
     { id:"eyes",   src:"assets/character/creator/eyes_00.png",          tint:true,  tintKey:"eyeColor"  },
     { id:"hair",   src:"assets/character/creator/hair_{idx}.png",       tint:true,  tintKey:"hairColor", hasVariants:true, variantKey:"hairIdx" },
